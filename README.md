@@ -1,6 +1,6 @@
 # Fruits App
 
-first of all move on project directory quanticedge
+first of all move on project directory symfony-demo
 
 step : 1 Composer Install
 run : compose install
