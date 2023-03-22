@@ -1,0 +1,105 @@
+{% extends 'layouts/base.html.twig' %}
+{% block body %}
+  <form action="{{ path('favorite') }}" method="post">
+    <div class="d-flex justify-content-end">
+      <div class="col-md-10 row align-items-center">
+        <div class="col-md-2 px-1 py-1 text-end">
+          Filter By:          
+        </div>
+        <div class="col-md-2 px-1 py-1">
+          <input class="form-control" type="text" name="name_filter" id="name_filter" size="8" placeholder="Name"></div>
+          <div class="col-md-2 px-1 py-1">
+            <input class="form-control" type="text" name="family_filter" id="family_filter" size="8" placeholder="Family"></div>
+            <div class="col-md-1 px-0">
+              <button type="submit" name="Search" id="submit" class="btn btn-sm btn-primary search-btn px-2" title="Search">
+                <i class='fa fa-search'></i>
+              </button>
+              <a href="{{ path('favorite') }}" title="Reset Search" class="btn btn-sm btn-warning refresh-btn " title="Reset Search">
+                <i class="fa fa-refresh" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+          <div class="col-md-2 px-1 py-1">
+            <a href="{{ path('index') }}" class="btn btn-sm btn-primary text-white py-2 px-4 fw-bold">
+              Back           
+            </a>
+          </div>
+        </div>
+      </form>
+      <div class="table-responsive px-4">
+        <table class="table  table-striped   caption-top  table-hover table-bordered">
+          <div class="row">
+            <strong class="">
+            Global Sum Of Favorite Fruits Facts : {{ getGlobalSumFacts }}                 
+            </strong>
+          </div>
+          <thead>
+            <tr class='thead'>
+              <th>
+                {{ knp_pagination_sortable(pagination, 'Fruit Name', 'f.name') }}
+              </th>
+              <th>
+                {{ knp_pagination_sortable(pagination, 'Fruit Family', 'f.family') }}
+              </th>
+              <th>
+                {{ knp_pagination_sortable(pagination, 'Fruit Genus', 'f.genus') }}
+              </th>
+              <th>
+                {{ knp_pagination_sortable(pagination, 'Fruit Order', 'f.f_order') }}
+              </th>
+              <th>
+                Fruity Nutritions                                                             
+              </th>
+              <th>
+                Sum of Facts                                                       
+              </th>
+              <th>
+                Action                                                                                          
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for f in pagination %}
+              <tr {% if loop.index is odd %} class="table-secondary" {% endif %}>
+                <td>
+                  {{ f.getName }}
+                </td>
+                <td>
+                  {{ f.getFamily }}
+                </td>
+                <td>
+                  {{ f.getGenus }}
+                </td>
+                <td>
+                  {{ f.getFOrder }}
+                </td>
+                <td>
+                  {{ f.getNutritionsAsString }}
+                </td>
+                <td>
+                  {{ f.getSum }}
+                </td>
+                <td>
+                  <button type="button" class="btn btn-sm btn-secondary fav_action" data-id="{{ f.id }}" title="Remove from favorite" data-action="remove_from_fav">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                  </button>
+                  <button type="button" class="btn btn-sm btn-danger delete" title="Delete" data-id="{{ f.id }}">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                  </button>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <strong>
+          
+        </strong>
+      </div>
+      <div class="pagination">
+        {{ knp_pagination_render(pagination) }}
+      </div>
+      {% block customscripts %}
+        <script type="text/javascript" src="{{ asset('js/fruity.js') }}"></script>
+      {% endblock %}
+    {% endblock %}
+    
